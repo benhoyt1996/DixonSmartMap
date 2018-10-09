@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dixon</string>
+    <string name="title_activity_maps">Dixon</string>
+    <string name="title_activity_splash">Dixon</string>
+</resources>

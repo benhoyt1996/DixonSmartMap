@@ -1,0 +1,124 @@
+{
+  "project_info": {
+    "project_number": "461132305401",
+    "firebase_url": "https://dixon-gardens.firebaseio.com",
+    "project_id": "dixon-gardens",
+    "storage_bucket": "dixon-gardens.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461132305401:android:9378620284b35b44",
+        "android_client_info": {
+          "package_name": "com.example.benjamin.finalmap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461132305401-spftef8lds19smu52c59bcubu2dboa9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAddoo_bEsU91EJXJr1x9iu4ixLe1SdZAQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461132305401:android:7a676ed240357860",
+        "android_client_info": {
+          "package_name": "com.example.benjamin.testdatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461132305401-spftef8lds19smu52c59bcubu2dboa9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAddoo_bEsU91EJXJr1x9iu4ixLe1SdZAQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461132305401:android:add1c150069c6a67",
+        "android_client_info": {
+          "package_name": "com.navigation.dixongardens.ben.bensgardens"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461132305401-9jnbq9ucvdj2a735cg2tv97jmipk3a7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.navigation.dixongardens.ben.bensgardens",
+            "certificate_hash": "967b816d14af905a81dab4e8e284da57b4986a47"
+          }
+        },
+        {
+          "client_id": "461132305401-spftef8lds19smu52c59bcubu2dboa9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAddoo_bEsU91EJXJr1x9iu4ixLe1SdZAQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461132305401-spftef8lds19smu52c59bcubu2dboa9m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461132305401-sup51kpf9ij4ohgud84q4484fq4va6bg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.apex.dixon"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

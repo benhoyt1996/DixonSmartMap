@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Dixon.kml</name>
+	<Style id="inline">
+		<LineStyle>
+			<color>ffa06452</color>
+			<width>2</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="inline0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#inline</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#inline1</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="inline1">
+		<LineStyle>
+			<color>ffa06452</color>
+			<width>2</width>
+		</LineStyle>
+		<PolyStyle>
+			<fill>0</fill>
+		</PolyStyle>
+	</Style>
+	<Placemark>
+		<name>South West Building</name>
+		<styleUrl>#inline0</styleUrl>
+		<LineString>
+			<tessellate>1</tessellate>
+			<coordinates>
+				-89.91804523230651,35.10568476572839,0 -89.9181132741582,35.1056894020175,0 -89.91813562045886,35.10550312771968,0 -89.91807042397861,35.10549752230789,0 -89.91806199521436,35.10554716858335,0 -89.91786298936587,35.10552991729062,0 -89.9178625855177,35.10554114291044,0 -89.91757824854344,35.10552098466344,0 -89.91757721961316,35.10553017218268,0 -89.9175904649659,35.10553131043936,0 -89.91758430084907,35.10559407438261,0 -89.91757012673649,35.10559369189609,0 -89.91756888018219,35.10560496667446,0 -89.91785283043242,35.10562642833347,0 -89.91785266903057,35.1056421528793,0 -89.91804603852542,35.1056558038545,0 -89.91804523230651,35.10568476572839,0 
+			</coordinates>
+		</LineString>
+	</Placemark>
+</Document>
+</kml>
