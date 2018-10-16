@@ -14,7 +14,7 @@ public class Splash extends AppCompatActivity {
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                startActivity(new Intent(Splash.this, MapsActivity.class));
+                startActivity(new Intent(Splash.this, GetDataActivity.class));
                 finish();
             }
         }, secondsDelayed * 1000);

@@ -3,11 +3,12 @@ package com.example.benjamin.finalmap;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @IgnoreExtraProperties
-public class Tree {
+public class Tree implements Serializable{
     public String Coordinates;
     public String description;
     public String latinName;
