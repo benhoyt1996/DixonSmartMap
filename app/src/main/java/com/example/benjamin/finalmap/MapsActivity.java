@@ -73,42 +73,16 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     private GoogleMap mMap;
 
-
-
-    String[] list;
-
     MaterialSearchView searchView;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-    DatabaseReference mDatabase;
-    DatabaseReference treeEndpoint;
-
-    DataSnapshot treeDatabase;
 
     String TAG = MapsActivity.class.getSimpleName();
 
-    String Coordinates;
     String description;
-    String latinName;
     String name;
-    String photos;
-
-    List<Tree> treeList = new ArrayList<>();
-    List<Tree> finalTreeList = new ArrayList<>();
-    List<Tree> testTreeList = new ArrayList<>();
 
     ArrayList<Tree> importedList = new ArrayList<>();
 
-    Tree tree1 = new Tree();
-    Tree tempTree = new Tree();
-    Tree tempAddTree;
-    Integer counter = 0;
-
     Tree foundTree = new Tree();
-
-    //ArrayList<Tree> myList = (ArrayList<Tree>) getIntent().getSerializableExtra("mylist");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,44 +96,18 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         DataWrapper dw = (DataWrapper) getIntent().getSerializableExtra("data");
         importedList = dw.getTrees();
 
-
-        //Log.d(TAG, this.finalTreeList.get(this.finalTreeList.size()).name);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        for(Tree t: importedList)
-//        {
-//            Log.d(TAG, "TREE " + t.name + "\n");
-//            Log.d(TAG, "TREE " + t.latinName + "\n");
-//            Log.d(TAG, "TREE " + t.description + "\n");
-//            Log.d(TAG, "TREE " + t.Coordinates + "\n");
-//            Log.d(TAG, "TREE " + t.photos + "\n");
-//
-//        }
-
-        //loadTreeList(this.finalTreeList);
+        //Generate list of tree names from treeList used to populate search suggestions
         List<String> treeNameList = new ArrayList<String>();
         for(Tree t: importedList) {
-            //Log.d(TAG, importedList.get(importedList.size()).name);
             treeNameList.add(t.name);
         }
-
         String[] treeNameArr = new String[treeNameList.size()];
         treeNameArr = treeNameList.toArray(treeNameArr);
 
-        for(String s : treeNameArr)
-            System.out.println(s);
-
-
-//        list = new String[]{"Japanese Maple", "Three-flowered Maple", "Black Oak",
-//                "Southern Black-haw", "Musclewood", "Weeping Katsuratree", "Dove Tree",
-//                "Chinese Witchhazel", "Possumhaw", "Southern Magnolia", "Southern Red Oak", "American Elm",
-//                "Slippery Elm"};
-
-
-
+        //Add material search view to map
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setSuggestions(treeNameArr);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -168,9 +116,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
                 for(Tree t: importedList)
                 {
-
-                    Log.d("query: " , query);
-                    Log.d("treename: ", t.name);
                     if(query.equals(t.name))
                     {
                         String[] splitCoords = t.Coordinates.split(",");
@@ -183,10 +128,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
                     }
                 }
-
-
-
-
                 return false;
             }
 
@@ -199,46 +140,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             }
 
         });
-
-
-
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder
-//                .setTitle("Hello, Welcome to the Dixon Gardens Android App")
-//                .setMessage("Click on the Search Button and begin typing to bring up tree search suggestions")
-//               // .setIcon(android.R.drawable.ic_dialog_alert)
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener()
-//                {
-//                    public void onClick(DialogInterface dialog, int which)
-//                    {
-//                        //do some thing here which you need
-//                    }
-//                });
-////        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-////        {
-////            public void onClick(DialogInterface dialog, int which)
-////            {
-////                dialog.dismiss();
-////            }
-////        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-
-
-
-
-
     }
-
-//    private void getTreeData() {
-//
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//
-//
-//
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -253,22 +155,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    //Changes the map when the map is ready to use
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         getLocationPermission();
 
-
+        //Move camera to Dixon Gardens
         LatLng dixGardens = new LatLng(35.1059, -89.9178);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(dixGardens));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(dixGardens, 18));
@@ -276,7 +170,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         mMap.setOnMarkerClickListener(this);
 
 
-
+        //Add KML overlay to map
         try {
             GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.dixonoverlay,
                     getApplicationContext());
@@ -293,9 +187,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 new LatLng(35.104975, -89.9197722222222),
                 new LatLng(35.1071861, -89.91549444444445));
         LatLng DIXDRAWNMAP= new LatLng(35.1071861, -89.91549444444445);
-
-
-
     }
 
 
@@ -319,41 +210,22 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     public boolean onMarkerClick(final Marker marker) {
 
-        // Retrieve the data from the marker.
-       // Integer clickCount = (Integer) marker.getTag();
         Intent mapIntent = new Intent(MapsActivity.this, TreeActivity.class);
 
+        //Search for tree in list of trees
         Tree markerTree;
         findTree(marker.getTitle().replace("Marker on ",""));
         markerTree = foundTree;
-        Log.d("marker tree: ", markerTree.toString());
 
 
         mapIntent.putExtra("TREENAME", markerTree.name);
         mapIntent.putExtra("TREE_LATIN_NAME", markerTree.latinName);
-        mapIntent.putExtra("TREE_DESC", markerTree.description.replace("\t", "line.seperator"));
+        mapIntent.putExtra("TREE_DESC", markerTree.description.replace("\t", ""));
         mapIntent.putExtra("TREE_IMAGE_URL", markerTree.photos.replace(" ", ""));
 
 
         startActivity(mapIntent);
 
-
-
-
-        // Check if a click count was set, then display the click count.
-//        if (clickCount != null) {
-//            clickCount = clickCount + 1;
-//            marker.setTag(clickCount);
-//            Toast.makeText(this,
-//                    marker.getTitle() +
-//                            " has been clicked " + clickCount + " times.",
-//                    Toast.LENGTH_SHORT).show();
-//
-//        }
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
         return false;
     }
 
@@ -381,12 +253,5 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             super.onBackPressed();
         }
     }
-
-
-//    public interface MyCallback {
-//
-//        void onCallback(String value);
-//
-//    }
 
 }
