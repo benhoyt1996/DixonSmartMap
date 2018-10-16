@@ -2,13 +2,17 @@ package com.example.benjamin.finalmap;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,8 +26,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.FirebaseApp;
+import com.google.maps.android.data.Feature;
+import com.google.maps.android.data.Layer;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
+import com.google.maps.android.data.geojson.GeoJsonPointStyle;
+import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import org.json.JSONException;
 
@@ -39,7 +48,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
     private GoogleMap mMap;
 
-    MaterialSearchView searchView;
+    MaterialSearchBar searchBar;
 
     String TAG = MapsActivity.class.getSimpleName();
 
@@ -73,16 +82,24 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         String[] treeNameArr = new String[treeNameList.size()];
         treeNameArr = treeNameList.toArray(treeNameArr);
 
-        //Add material search view to map
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        searchView.setSuggestions(treeNameArr);
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        //Add Material Design SearchBar to Map Activity
+        searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
+        searchBar.setHint("Custom hint");
+        searchBar.setSpeechMode(false);
+        searchBar.setHint("Search for Landmarks...");
+        //enable searchbar callbacks
+        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public void onSearchStateChanged(boolean enabled) {
+
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
 
                 for(Tree t: importedList)
                 {
-                    if(query.equals(t.name))
+                    if(text.toString().equals(t.name))
                     {
                         String[] splitCoords = t.Coordinates.split(",");
                         Double lat = Double.parseDouble(splitCoords[0].replaceAll("\\s+",""));
@@ -94,18 +111,32 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
                     }
                 }
-                return false;
+
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void onButtonClicked(int buttonCode) {
 
-                //Make realtime changes as search is edited
+            }
+        });
+        //restore last queries from disk
+        searchBar.setLastSuggestions(treeNameList);
+        //Inflate menu and setup OnMenuItemClickListener
+        searchBar.inflateMenu(R.menu.menu);
+        searchBar.getMenu().setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.about:
+                        Intent aboutIntent = new Intent(MapsActivity.this, InfoActivity.class);
+                        startActivity(aboutIntent);
 
+                }
                 return false;
             }
-
         });
+
     }
 
     @Override
@@ -114,11 +145,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+        //MenuItem item = menu.findItem(R.id.search);
+        //searchView.setMenuItem(item);
 
         return true;
     }
+
 
 
     //Changes the map when the map is ready to use
@@ -136,11 +168,27 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         mMap.setOnMarkerClickListener(this);
 
 
-        //Add KML overlay to map
+
+        //GeoJSON Overlay
         try {
             GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.dixonoverlay,
                     getApplicationContext());
+
+
+            GeoJsonPolygonStyle geoJsonPolygonStyle = layer.getDefaultPolygonStyle();
+            GeoJsonLineStringStyle geoJsonLineStringStyle = layer.getDefaultLineStringStyle();
+            GeoJsonPointStyle geoJsonPointStyle = layer.getDefaultPointStyle();
+
+            //Set KML Layer colors
+            geoJsonPolygonStyle.setStrokeColor(Color.RED);
+            geoJsonPolygonStyle.setFillColor(Color.TRANSPARENT);
+            geoJsonLineStringStyle.setColor(Color.RED);
+            geoJsonPointStyle.setPolygonFillColor(Color.RED);
+
+            //Add KML Layer
             layer.addLayerToMap();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -148,11 +196,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         }
 
 
-
+        //Create and set scroll boundaries for map
         LatLngBounds DIXBOUNDS  = new LatLngBounds(
                 new LatLng(35.104975, -89.9197722222222),
                 new LatLng(35.1071861, -89.91549444444445));
-        LatLng DIXDRAWNMAP= new LatLng(35.1071861, -89.91549444444445);
+        mMap.setLatLngBoundsForCameraTarget(DIXBOUNDS);
+
     }
 
 
@@ -186,7 +235,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         mapIntent.putExtra("TREENAME", markerTree.name);
         mapIntent.putExtra("TREE_LATIN_NAME", markerTree.latinName);
-        mapIntent.putExtra("TREE_DESC", markerTree.description.replace("\t", ""));
+        mapIntent.putExtra("TREE_DESC", markerTree.description);
         mapIntent.putExtra("TREE_IMAGE_URL", markerTree.photos.replace(" ", ""));
 
 
@@ -208,16 +257,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             }
         }
 
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
-        } else {
-            super.onBackPressed();
-        }
     }
 
 }

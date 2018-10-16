@@ -28,6 +28,9 @@ TreeActivity extends AppCompatActivity {
         treeName = treeName.replace("Marker on ","");
         latinName = getIntent().getStringExtra("TREE_LATIN_NAME");
         treeDesc = getIntent().getStringExtra("TREE_DESC");
+        String replaceStr = System.getProperty("line.separator");
+        treeDesc = treeDesc.replaceAll("\\\\\\\\t|\\\\t|\\t|\\n|\\\\n|\\\\\\\\n", replaceStr);
+
         imageUrl = getIntent().getStringExtra("TREE_IMAGE_URL");
 
         TextView engTextView = findViewById(R.id.engTextView);
