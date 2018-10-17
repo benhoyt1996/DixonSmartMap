@@ -3,12 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.benjamin.finalmap.MapsActivity">
 
-
-
     <item
         android:id="@+id/about"
         android:title="Dixon Information"/>
 
+    <item
+        android:id="@+id/showMarkers"
+        android:title="Show Landmark Markers"/>
 
+    <item
+        android:id="@+id/hideMarkers"
+        android:title="Hide Landmark Markers"/>
 
 </menu>

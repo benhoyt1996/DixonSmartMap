@@ -39,6 +39,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
@@ -131,12 +132,45 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                     case R.id.about:
                         Intent aboutIntent = new Intent(MapsActivity.this, InfoActivity.class);
                         startActivity(aboutIntent);
+                        break;
 
+                    case R.id.showMarkers:
+                        showMapMarkers();
+                        break;
+
+                    case R.id.hideMarkers:
+                        hideMapMarkers();
+                        break;
                 }
                 return false;
             }
         });
 
+    }
+
+    public void showMapMarkers() {
+        String[] splitCoords;
+        Double lat;
+        Double lon;
+
+        for(Tree t: importedList)
+        {
+                splitCoords = t.Coordinates.split(",");
+                lat = Double.parseDouble(splitCoords[0].replaceAll("\\s+",""));
+                lon = Double.parseDouble(splitCoords[1].replaceAll("\\s+",""));
+
+                mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title("Marker on" + t.name));
+
+        }
+        Toast.makeText(MapsActivity.this, "All Landmark Markers added to Map", Toast.LENGTH_LONG).show();
+
+    }
+
+    public void hideMapMarkers() {
+        //Clear map (markers and overlay)
+        mMap.clear();
+        //Add KML Overlay to map
+        addGeoJsonLayer();
     }
 
     @Override
@@ -167,9 +201,20 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
         mMap.setOnMarkerClickListener(this);
 
+        //Add KML Overlay to map
+        addGeoJsonLayer();
 
 
-        //GeoJSON Overlay
+        //Create and set scroll boundaries for map
+        LatLngBounds DIXBOUNDS  = new LatLngBounds(
+                new LatLng(35.104975, -89.9197722222222),
+                new LatLng(35.1071861, -89.91549444444445));
+        mMap.setLatLngBoundsForCameraTarget(DIXBOUNDS);
+
+    }
+
+    //Add GeoJSON Overlay to map
+    private void addGeoJsonLayer() {
         try {
             GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.dixonoverlay,
                     getApplicationContext());
@@ -194,16 +239,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        //Create and set scroll boundaries for map
-        LatLngBounds DIXBOUNDS  = new LatLngBounds(
-                new LatLng(35.104975, -89.9197722222222),
-                new LatLng(35.1071861, -89.91549444444445));
-        mMap.setLatLngBoundsForCameraTarget(DIXBOUNDS);
-
     }
-
 
     private void getLocationPermission() {
         /*
