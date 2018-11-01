@@ -48,11 +48,6 @@ TreeActivity extends AppCompatActivity {
         Picasso.get().load(imageUrl).into(imageView);
 
     }
-    @Override
-    public void onBackPressed() {
-        // your code.
-        startActivity(new Intent(TreeActivity.this, GetDataActivity.class));
 
-    }
 
 }

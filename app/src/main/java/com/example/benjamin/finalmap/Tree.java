@@ -27,13 +27,13 @@ public class Tree implements Serializable{
         this.photos = photos;
     }
 
-    public Tree( String description, String latinName, String name) {
-        this.Coordinates = Coordinates;
-        this.description = description;
-        this.latinName = latinName;
-        this.name = name;
-        this.photos = photos;
-    }
+//    public Tree( String description, String latinName, String name) {
+//        this.Coordinates = Coordinates;
+//        this.description = description;
+//        this.latinName = latinName;
+//        this.name = name;
+//        this.photos = photos;
+//    }
 
 
 
