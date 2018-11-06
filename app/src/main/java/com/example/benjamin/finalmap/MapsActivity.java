@@ -211,6 +211,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 new LatLng(35.1071861, -89.91549444444445));
         mMap.setLatLngBoundsForCameraTarget(DIXBOUNDS);
 
+        mMap.setMinZoomPreference(17.4f);
+        //mMap.setMaxZoomPreference(14.0f);
+
     }
 
     //Add GeoJSON Overlay to map

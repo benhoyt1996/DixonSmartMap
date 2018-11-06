@@ -9,10 +9,10 @@
 
     <item
         android:id="@+id/showMarkers"
-        android:title="Show Landmark Markers"/>
+        android:title="Show All Markers"/>
 
     <item
         android:id="@+id/hideMarkers"
-        android:title="Hide Landmark Markers"/>
+        android:title="Clear All Markers"/>
 
 </menu>
